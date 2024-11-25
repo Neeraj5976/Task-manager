@@ -1,0 +1,25 @@
+.modal-content {
+    border-radius: 8px;
+    background: #fff;
+  }
+  
+  .modal-header {
+    border-bottom: 1px solid #dee2e6;
+
+  }
+  
+  .modal-footer {
+    border-top: 1px solid #dee2e6;
+    justify-content: start !important;
+
+  }
+  
+  .cancel-btn{
+    background:#f5f5f5 !important;
+    color: black;
+    border-color: #bfc3c7;
+  }
+
+  .modal-title{
+    font-weight: 400;
+  }

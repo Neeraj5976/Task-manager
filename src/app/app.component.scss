@@ -1,0 +1,178 @@
+/* Sidebar */
+.sidebar {
+    width: 300px;
+    background-color: #111;
+    color: #fff;
+    height: 100vh;
+    float: left;
+    padding: 20px;
+  }
+  
+  .sidebar ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .sidebar ul li {
+    margin: 15px 0;
+  }
+  
+  .sidebar ul li a {
+    text-decoration: none;
+    color: #fff;
+  }
+  
+  .sidebar ul li a.active {
+    font-weight: bold;
+    color: #4caf50;
+  }
+  
+  /* Main Content */
+  .main-content {
+    // padding-left: 200px;
+    flex: 1;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 20px 0px 20px;
+  }
+  
+  .new-task-button {
+    background-color: #22b378;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+  }
+  
+  .stats {
+    display: flex;
+    justify-content: space-between;
+    background: #f4f4f4;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px 20px 0px 20px;
+  }
+
+  .stats-activity{
+    display: flex;
+    gap: 30px;
+    align-items: center;
+    // padding-left: 20px;
+  }
+  
+  .stat {
+    // background: #f4f4f4;
+    padding: 5px;
+    // width: 15%;
+    & > p{
+       font-size: 20px;
+       font-weight: 600;
+       margin-bottom: 8px !important;
+    }
+    
+  }
+
+  .stat-unassigned{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 25px;
+    background: white;
+    border-radius: 10px;
+    p{
+        margin: 2px;
+        font-size: 20px;
+        font-weight: 600;
+    }
+    span{
+        font-weight:4500;
+        font-size: 14px;
+        opacity: 0.7;
+
+    }
+  }
+
+  .activity-label{
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    .activity-border{
+        display: block;
+        width: 3px;
+        height: 10px;
+        background:#ff660f;
+    }
+    & > .label{
+        white-space: nowrap;
+        font-size: 13px;
+        color: #969a9f;
+    }
+  }
+  
+  /* Table */
+ 
+
+  .task-manager{
+    display: flex;
+    flex-wrap: nowrap;
+  }
+
+  .header-2{
+    background:#f7f7fe;
+    height: 50px;
+  }
+
+  .new-button {
+    background-color: #22b378; /* Green */
+    color: white; /* White text */
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    border: none;
+    align-items: center;
+    border-radius: 5px;
+    // padding: 0px 20px;
+    display: flex;
+    cursor: pointer;
+  }
+  
+  .new-button .icon {
+    margin-right: 5px;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  .new-button .dropdown {
+    margin-left: 5px;
+    font-size: 12px;
+  }
+  
+  .add-task{
+    padding: 5px 10px;
+    border-right: 1px solid white;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+
+  }
+
+  .dropdown-icon{
+    padding: 4px;
+  }
+
+  .custom-icon-button {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center; /* Centers content vertically */
+    justify-content: center; /* Centers content horizontally */
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 5px;
+    font-size: 25px;
+}

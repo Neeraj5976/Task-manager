@@ -1,0 +1,78 @@
+<div
+  class="modal fade"
+  id="timerModal"
+  tabindex="-1"
+  aria-labelledby="timerModalLabel"
+  aria-hidden="true"
+>
+  <div style="width: 500px;margin-top: 0px;" class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div style="padding: 0px;" class="modal-body">
+        <div class="model_header">
+          <div class="modal-header">
+            <h5 class="modal-title" id="timerModalLabel">
+              <i class="bi bi-stopwatch"></i> START TIMER
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="text-center mb-4">
+            <h2>
+              {{ hours < 10 ? '0' + hours : hours }}h :
+              {{ minutes < 10 ? '0' + minutes : minutes }}m :
+              {{ seconds < 10 ? '0' + seconds : seconds }}s
+            </h2>
+          </div>
+        </div>
+        <form style="padding: 10px;" [formGroup]="timerForm" (ngSubmit)="onSubmit()">
+          <!-- Task -->
+          <div class="mb-3">
+            <label for="task" class="form-label">Task*</label>
+            <select id="task" class="form-select" formControlName="task" required>
+              <option value="" disabled selected>Select a task</option>
+              <option value="55">Task 55</option>
+              <option value="56">Task 56</option>
+              <option value="57">Task 57</option>
+            </select>
+            <div
+              *ngIf="timerForm.get('task')?.touched && timerForm.get('task')?.invalid"
+              class="text-danger"
+            >
+              Task is required.
+            </div>
+          </div>
+
+          <!-- Notes -->
+          <div class="mb-3">
+            <label for="notes" class="form-label">Notes</label>
+            <textarea
+              id="notes"
+              class="form-control"
+              formControlName="notes"
+              rows="3"
+              placeholder="Add notes"
+            ></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button
+        style="background: #22b378;opacity: 1;"
+          type="button"
+          class="btn btn-success"
+          [disabled]="timerForm.invalid"
+          (click)="startTimer()"
+        >
+          Start Timer
+        </button>
+        <button type="button" class="btn btn-secondary cancel-btn" (click)="onCancel()">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
