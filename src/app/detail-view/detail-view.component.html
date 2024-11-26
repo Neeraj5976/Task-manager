@@ -1,6 +1,6 @@
-<div class="">
+<!-- <div class="">
     <div class="detail-container">
-      <!-- Sidebar (All Tasks) -->
+      
       <div class="tasks-list">
         <div class="d-flex justify-content-between align-items-center">
           <h6>All Tasks</h6>
@@ -12,7 +12,6 @@
             <span class="dropdown-icon">&#9662;</span>
           </div>
           
-          <!-- <button class="btn btn-sm btn-success">+ New</button> -->
         </div>
         <ul class="list-group">
           <li class="list-group-item selected">
@@ -73,7 +72,6 @@
         </ul>
       </div>
   
-      <!-- Task Details -->
       <div class="task-detail">
         <div class="card">
           <div class=" d-flex justify-content-between align-items-center">
@@ -88,7 +86,7 @@
                   Change Status
                 </button>
                 <button class="custom-icon-button">
-                    <span class="vertical-dots">⋮</span> <!-- Vertical Ellipsis -->
+                    <span class="vertical-dots">⋮</span> 
                 </button>
                 <ul class="dropdown-menu">
                   <li><a class="dropdown-item" href="#">Edit</a></li>
@@ -133,4 +131,189 @@
       </div>
     </div>
   </div>
+   -->
+
+
+   <div class="">
+    <div class="detail-container">
+      <!-- Sidebar (All Tasks) -->
+      <div class="tasks-list">
+        <div class="d-flex justify-content-between align-items-center">
+          <h6>All Tasks</h6>
+          <div class="new-button">
+            <div class="add-task"  data-bs-target="#taskModal"
+               data-bs-toggle="modal">
+              <span class="icon">+</span>
+              New
+            </div>
+
+            <span class="dropdown-icon">&#9662;</span>
+          </div>
+        </div>
+        <ul class="list-group">
+          <li
+            class="list-group-item"
+            [class.selected]="selectedTask?.id === task.id"
+            *ngFor="let task of tasks"
+            (click)="selectTask(task)"
+          >
+            <input type="checkbox" />
+            <div>
+              <div>
+                <strong>#TASK-{{ task.id }}</strong> <br />
+                <div class="task-status">
+                  <span [class]="task.status.toLowerCase().replace(' ', '-')"></span>
+                  <label>{{ task.status }}</label>
+                </div>
+              </div>
+              <div class="list-item-status">
+                <span class="text-muted small">
+                  Due Date: {{ task.dueDate | date: 'MM/dd/yyyy' }}
+                </span>
+                <br />
+                <div [class]="'priority ' + task.priority.toLowerCase()">
+                  <img
+                    style="border-radius: 5px;"
+                    width="10"
+                    height="10"
+                    [src]="'assets/icons/' + task.priority.toLowerCase() + '-priority.svg'"
+                    alt="Priority Icon"
+                  />
+                  <span class="priority">{{ task.priority }}</span>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+  
+      <!-- Task Details -->
+      <div class="task-detail" *ngIf="selectedTask">
+        <div class="card">
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="task-priority">
+              <img
+                width="15"
+                height="15"
+                [src]="'assets/icons/' + selectedTask.priority.toLowerCase() + '-priority.svg'"
+              />
+              <label class="">{{ selectedTask.priority.toUpperCase() }} PRIORITY</label>
+            </div>
+            <div>
+              <button
+                style="background: #f5f5f5;"
+                class="btn btn-light me-2"
+                (click)="logTime()"
+              >
+                Log Time
+              </button>
+              <div class="btn-group">
+                <button
+                  style="background: #22b378;"
+                  class="btn btn-sm btn-primary dropdown-toggle"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Change Status
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      href="#"
+                      (click)="changeStatus('Yet To Start')"
+                    >
+                      Yet To Start
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="#" (click)="changeStatus('In Progress')">
+                      In Progress
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="#" (click)="changeStatus('Completed')">
+                      Completed
+                    </a>
+                  </li>
+                </ul>
+                <button
+                  class="custom-icon-button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                <span class="vertical-dots">⋮</span>
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      href="#"
+                      data-bs-target="#taskModal"
+            data-bs-toggle="modal"
+                    >
+                      Edit
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="#" data-bs-target="#taskModal"
+                    data-bs-toggle="modal">
+                      Clone
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="#" (click)="deleteTask(selectedTask.id!)">
+                      Delete
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <button
+                style="color: red;"
+                class="btn ms-2"
+                data-bs-close="dropdown"
+              >
+                &times;
+              </button>
+            </div>
+          </div>
+          <div class="card-body">
+            <h6>
+              #TASK-{{ selectedTask.id }} {{ selectedTask.title }}
+              <span class="">{{ selectedTask.status }}</span>
+            </h6>
+            <hr />
+            <div class="column">
+              <div class="task-detail-section">
+                <p>Due Date:</p>
+                <p>{{ selectedTask.dueDate | date: 'MM/dd/yyyy' }}</p>
+              </div>
+              <div class="task-detail-section">
+                <p>Assigned To:</p>
+                <p>{{ selectedTask.assignedTo || 'Unassigned' }}</p>
+              </div>
+              <hr />
+            </div>
+            <h6>Timesheets</h6>
+            <table class="table table-bordered text-center">
+              <thead class="table-light">
+                <tr>
+                  <th scope="col">DATE</th>
+                  <th scope="col">USER</th>
+                  <th scope="col">TIME</th>
+                  <th scope="col">STATUS</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td colspan="4" class="text-muted">No logged hours yet</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   

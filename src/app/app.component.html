@@ -8,12 +8,16 @@
         <h3 style="opacity: 0.9;">All Tasks</h3>
         <div style="display: flex;">
           <div class="new-button">
-            <div class="add-task">
+            <div 
+            class="add-task" 
+               data-bs-target="#taskModal"
+               data-bs-toggle="modal">
                 <span class="icon">+</span>
                  New
             </div>
             <span class="dropdown-icon">&#9662;</span>
           </div>
+          
           <button class="custom-icon-button">
             ...
           </button>
@@ -101,14 +105,13 @@
   </button>
 
   <app-timer-modal></app-timer-modal>
-
   <button
   class="btn btn-primary"
   data-bs-target="#taskModal"
   data-bs-toggle="modal"
->
+  >
   + New
-</button>
-  <app-add-form></app-add-form>
-
+  </button>
 </div>
+
+<app-add-form></app-add-form>

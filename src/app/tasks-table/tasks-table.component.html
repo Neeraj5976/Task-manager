@@ -1,4 +1,4 @@
-<div class="tasks-table">
+<!-- <div class="tasks-table">
 
     <div class="filters">
         <div>
@@ -82,4 +82,94 @@
         </tr>
       </tbody>
     </table>
-  </div> 
+  </div>  -->
+
+
+  <div class="tasks-table">
+    <div class="filters">
+      <div>
+        <img width="15" height="15" src="./assets/icons/filter.svg" alt="filter--v1" />
+        <label class="ps-1 fw-bold">Filters :</label>
+      </div>
+  
+      <!-- Filter by Status -->
+      <div class="filter-select">
+        <label>Select Status</label>
+        <select [(ngModel)]="filter.status" (change)="onFilterChange()">
+          <option value="">All</option>
+          <option value="Yet To Start">Yet To Start</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Completed">Completed</option>
+        </select>
+      </div>
+  
+      <!-- Filter by Priority -->
+      <div class="filter-select">
+        <label>Select Priority</label>
+        <select [(ngModel)]="filter.priority" (change)="onFilterChange()">
+          <option value="">All</option>
+          <option value="High">High</option>
+           <option value="Low">Low</option>
+        </select>
+      </div>
+    </div>
+  
+    <!-- Tasks Table -->
+    <div>
+      <table>
+        <thead>
+          <tr>
+            <th>
+              <div class="table-checkbox">
+                <input type="checkbox" />
+              </div>
+            </th>
+            <th>Task Number</th>
+            <th>Title</th>
+            <th>Assigned To</th>
+            <th>Priority</th>
+            <th>Due Date</th>
+            <th>Completion</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let task of tasks">
+            <td>
+              <div class="table-checkbox">
+                <input type="checkbox" />
+              </div>
+            </td>
+            <td>{{ task.id }}</td>
+            <td>{{ task.title }}</td>
+            <td>{{ task.assignedTo || 'Unassigned' }}</td>
+            <td>
+              <div [class]="'priority ' + task.priority.toLowerCase()">
+                <img
+                  style="border-radius: 5px;"
+                  width="10"
+                  height="10"
+                  [src]="'assets/icons/' + task.priority.toLowerCase() + '-priority.svg'"
+                  alt="Priority Icon"
+                />
+                <span>{{ task.priority }}</span>
+              </div>
+            </td>
+            <td>{{ task.dueDate | date: 'MM/dd/yyyy' }}</td>
+            <td>
+              <div
+                [class]="'progress-bar ' + (task.completion === 100 ? 'completed' : '')"
+              ></div>
+            </td>
+            <td>
+              <div class="task-status">
+                <span [class]="task.status.toLowerCase().replace(' ', '-')"></span>
+                <label>{{ task.status }}</label>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
