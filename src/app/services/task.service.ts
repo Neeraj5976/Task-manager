@@ -52,15 +52,47 @@ export class TaskService {
   private modeSubject = new BehaviorSubject<'add' | 'edit' | 'clone'>('add');
   public selectedTask:Task | null = null;
   public logs: Timesheet[] = []; // Map taskNumber to logs
-
+  private TASK_STORAGE_KEY = 'TASK_LIST'
+  private LOG_STORAGE_KEY = 'LOGS_LIST'
   private statisticsSubject: BehaviorSubject<any> = new BehaviorSubject<any>(this.calculateStatistics());
-  
+  public logsSubject: BehaviorSubject<Timesheet[]> = new BehaviorSubject<Timesheet[]>(this.logs);
   constructor() {
-    // Subscribe to task changes and update statistics
+
     this.taskSubject.subscribe(() => {
       this.statisticsSubject.next(this.calculateStatistics());
     });
+    this.loadFromLocalStorage();
+    this.getTasksObservable().subscribe((tasks) => {
+       localStorage.setItem(this.TASK_STORAGE_KEY, JSON.stringify(this.tasks));
+    });
+    this.getLogsObservable().subscribe(logs => {
+      localStorage.setItem(this.LOG_STORAGE_KEY, JSON.stringify(this.logs));
+    })
+    
   }
+
+  getLogsObservable(): Observable<any> {
+    return this.logsSubject.asObservable();
+  }
+
+  // private saveToLocalStorage(): void {
+  //   localStorage.setItem(this.TASK_STORAGE_KEY, JSON.stringify(this.tasks));
+  //   localStorage.setItem(this.LOG_STORAGE_KEY, JSON.stringify(this.logs));
+  // }
+
+  private loadFromLocalStorage(): void {
+    const tasksFromStorage = localStorage.getItem(this.TASK_STORAGE_KEY);
+    const logsFromStorage = localStorage.getItem(this.LOG_STORAGE_KEY);
+    if (tasksFromStorage) {
+      this.tasks = JSON.parse(tasksFromStorage);
+      this.taskCounter = this.tasks.length > 0 ? Math.max(...this.tasks.map(t => t.id)) + 1 : 0;
+      this.taskSubject.next([...this.tasks]);
+    }
+    if (logsFromStorage) {
+      this.logs = JSON.parse(logsFromStorage);
+    }
+  }
+
 
   // Real-time statistics observable
   getStatisticsObservable(): Observable<any> {

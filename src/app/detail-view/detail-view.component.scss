@@ -34,6 +34,8 @@
   .tasks-list{
     width: 400px;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
     padding: 0px;
     border-right: 1px solid #e5e5e5;
     & > div:first-child{

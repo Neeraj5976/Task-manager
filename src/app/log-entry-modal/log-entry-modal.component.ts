@@ -38,7 +38,7 @@ export class LogEntryModalComponent implements OnInit {
 
       // Push the log entry to the task service logs array
       this.taskService.logs.push(this.logForm.value);
-
+      this.taskService.logsSubject.next(this.taskService.logs);
       // Close the modal
       // this.closeModal();
     }

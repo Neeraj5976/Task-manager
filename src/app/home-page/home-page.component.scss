@@ -34,6 +34,7 @@
     flex-direction: column;
     flex: 1;
     overflow: hidden;
+    padding-bottom: 10px;
     .task-list{
         display: flex;
         flex-direction: column;
@@ -125,6 +126,7 @@
         white-space: nowrap;
         font-size: 13px;
         color: #969a9f;
+        line-height:13px;
     }
   }
   
