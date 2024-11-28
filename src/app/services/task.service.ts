@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Task } from '../models/task.model';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { Timesheet } from '../models/timesheet';
 
 @Injectable({
   providedIn: 'root',
@@ -46,20 +47,83 @@ export class TaskService {
   ];
 
   private taskSubject: BehaviorSubject<Task[]> = new BehaviorSubject<Task[]>(this.tasks);
-  private taskCounter = this.tasks.length + 1;
+  private taskCounter = this.tasks.length;
+  private taskDataSubject = new BehaviorSubject<Task | null>(null);
+  private modeSubject = new BehaviorSubject<'add' | 'edit' | 'clone'>('add');
+  public selectedTask:Task | null = null;
+  public logs: Timesheet[] = []; // Map taskNumber to logs
 
-  generateTaskNumber(): string {
-    return `TASK-${this.taskCounter++}`;
+  private statisticsSubject: BehaviorSubject<any> = new BehaviorSubject<any>(this.calculateStatistics());
+  
+  constructor() {
+    // Subscribe to task changes and update statistics
+    this.taskSubject.subscribe(() => {
+      this.statisticsSubject.next(this.calculateStatistics());
+    });
   }
+
+  // Real-time statistics observable
+  getStatisticsObservable(): Observable<any> {
+    return this.statisticsSubject.asObservable();
+  }
+
+  private calculateStatistics(): any {
+    const today = new Date();
+    const overdueTasks = this.tasks.filter(
+      (task) => new Date(task.dueDate) < today && task.status !== 'Completed'
+    ).length;
+    const dueToday = this.tasks.filter((task) => {
+      const dueDate = new Date(task.dueDate);
+      return (
+        dueDate.getFullYear() === today.getFullYear() &&
+        dueDate.getMonth() === today.getMonth() &&
+        dueDate.getDate() === today.getDate() &&
+        task.status !== 'Completed'
+      );
+    }).length;
+    const priorityToday = this.tasks.filter(
+      (task) =>
+        task.priority === 'High' &&
+        new Date(task.dueDate).toDateString() === today.toDateString()
+    ).length;
+    const yetToStart = this.tasks.filter((task) => task.status === 'Yet To Start').length;
+    const inProgress = this.tasks.filter((task) => task.status === 'In Progress').length;
+    const unassigned = this.tasks.filter((task) => task.assignedTo === 'Unassigned').length;
+
+    return {
+      overdueTasks,
+      dueToday,
+      priorityToday,
+      yetToStart,
+      inProgress,
+      unassigned,
+    };
+  }
+
+
+
+
+
+  generateTaskNumber(): number {
+    const ids = this.tasks.map(task => task.id); // Extract all existing IDs
+    let newId = 1; // Start from 1
+    while (ids.includes(newId)) {
+      newId++; // Find the smallest unused ID
+    }
+    console.log("newId ",newId)
+    return newId;
+
+  }
+  
 
   getTasksObservable(): Observable<Task[]> {
     return this.taskSubject.asObservable();
   }
 
   addTask(task: Task): void {
-    task.id = this.taskCounter;
     this.tasks.push(task);
     this.taskSubject.next([...this.tasks]);
+    this.taskCounter = this.tasks.length;
   }
 
   updateTask(updatedTask: Task): Observable<void> {
@@ -74,6 +138,8 @@ export class TaskService {
   deleteTask(taskId: number): void {
     this.tasks = this.tasks.filter((task) => task.id !== taskId);
     this.taskSubject.next([...this.tasks]);
+    this.taskCounter = this.tasks.length;
+
   }
 
   cloneTask(taskId: number): void {
@@ -104,4 +170,24 @@ export class TaskService {
     const filteredTasks = this.getTasks(filter);
     return new BehaviorSubject<Task[]>(filteredTasks).asObservable();
   }
+
+
+  setTaskData(task: Task | null): void {
+    this.taskDataSubject.next(task);
+  }
+
+  getTaskData() {
+    return this.taskDataSubject.asObservable();
+  }
+
+  setMode(mode: 'add' | 'edit' | 'clone'): void {
+    this.modeSubject.next(mode);
+  }
+
+  getMode() {
+    return this.modeSubject.asObservable();
+  }
+
+
+ 
 }

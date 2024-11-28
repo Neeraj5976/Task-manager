@@ -1,0 +1,86 @@
+<div class="task-manager">
+    <app-sidebar></app-sidebar>
+  
+    <div class="main-content">
+      <div class="header-2"></div>
+      <div *ngIf="taskService.selectedTask == null" class="task-list">
+        <div class="header">
+          <h3 style="opacity: 0.9;">All Tasks</h3>
+          <div style="display: flex;">
+            <div class="new-button">
+              <div 
+              class="add-task" 
+              (click)="openTaskModal('add')">
+                  <span class="icon">+</span>
+                   New
+              </div>
+              <span class="dropdown-icon">&#9662;</span>
+            </div>
+            
+            <button class="custom-icon-button">
+              ...
+            </button>
+  
+          </div>
+        </div>
+        <div class="stats">
+          <div class="stats-activity">
+            <img
+              style="border-radius: 5px"
+              width="40"
+              height="35"
+              src="assets/icons/warning.png"
+            />
+            <div class="stat">
+              <p style="color: #f7515a">{{ statistics.overdueTasks }}</p>
+              <div  class="activity-label">
+                <span style="color:black" class="label fw-bold fs-6">Overdue Tasks</span>
+              </div>
+            </div>
+            <div class="stat">
+              <p>{{ statistics.dueToday }}</p>
+              <div class="activity-label">
+                <span class="activity-border"></span>
+                <span class="label">Due Today</span>
+              </div>
+            </div>
+            <div class="stat">
+                <p>{{ statistics.priorityToday }}</p>
+                <div class="activity-label">
+                <span class="activity-border"></span>
+                <span class="label">Priority Today</span>
+              </div>
+            </div>
+            <div class="stat">
+                <p>{{ statistics.yetToStart }}</p>
+              <div class="activity-label">
+                <span style="background: #785dd1" class="activity-border"></span>
+                <span class="label">Yet To Start</span>
+              </div>
+            </div>
+            <div class="stat">
+                <p>{{ statistics.inProgress }}</p>
+              <div class="activity-label">
+                <span class="activity-border"></span>
+                <span class="label">In Progress</span>
+              </div>
+            </div>
+          </div>
+  
+          <div class="stat-unassigned">
+            <p>{{ statistics.unassigned }}</p>
+            <span>Unassigned</span>
+          </div>
+        </div>
+        <app-tasks-table></app-tasks-table>
+      </div>
+      <div *ngIf="taskService.selectedTask != null " class="details-view">
+        <app-detail-view></app-detail-view>
+      </div>
+    </div>
+  </div>
+  
+
+  
+  <app-add-form></app-add-form>
+  <app-log-entry-modal></app-log-entry-modal>

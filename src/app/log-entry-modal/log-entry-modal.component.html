@@ -3,7 +3,6 @@
   id="logEntryModal"
   tabindex="-1"
   aria-labelledby="logEntryModalLabel"
-  aria-hidden="true"
 >
   <div style="width: 600px;margin-top: 0px;" class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -41,9 +40,7 @@
             <label for="task" class="form-label">Task*</label>
             <select id="task" class="form-select" formControlName="task" required>
               <option value="" disabled selected>Select a task</option>
-              <option value="56">Task 56</option>
-              <option value="57">Task 57</option>
-              <option value="58">Task 58</option>
+              <option *ngFor="let id of task_ids" [value]="id">Task {{id}}</option>
             </select>
             <div
               *ngIf="logForm.get('task')?.touched && logForm.get('task')?.invalid"
@@ -98,6 +95,8 @@
           class="btn btn-success"
           [disabled]="logForm.invalid"
           (click)="onSubmit()"
+          data-bs-dismiss="modal"
+          aria-label="Close"
         >
           Save
         </button>
@@ -105,6 +104,7 @@
           type="button"
           class="btn btn-secondary cancel-btn"
           data-bs-dismiss="modal"
+          aria-label="Close"
         >
           Cancel
         </button>

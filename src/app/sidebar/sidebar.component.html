@@ -4,7 +4,7 @@
         <div class="menu-item selected" > <img width="15" height="18"   src="assets/icons/checkList.svg"><label> Tasks</label></div>
         <div class="menu-item">  <img  width="15" height="15"  src="assets/icons/clock.svg"> <label>Time Tracking</label></div>
     </div>
-    <div class="footer">
+    <div class="footer" (click)="taskService.selectedTask = null">
         <img width="15" height="15" src="./assets/icons/back.svg" alt="back"/>    </div>
   </div>
   

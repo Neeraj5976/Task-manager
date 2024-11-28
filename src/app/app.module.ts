@@ -11,6 +11,7 @@ import { PopupModalComponent } from './popup-modal/popup-modal.component';
 import { LogEntryModalComponent } from './log-entry-modal/log-entry-modal.component';
 import { TimerModalComponent } from './timer-modal/timer-modal.component';
 import { DetailViewComponent } from './detail-view/detail-view.component';
+import { HomePageComponent } from './home-page/home-page.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { DetailViewComponent } from './detail-view/detail-view.component';
     PopupModalComponent,
     LogEntryModalComponent,
     TimerModalComponent,
-    DetailViewComponent
+    DetailViewComponent,
+    HomePageComponent
   ],
   imports: [
     BrowserModule,

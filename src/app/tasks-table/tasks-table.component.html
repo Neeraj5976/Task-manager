@@ -115,7 +115,7 @@
     </div>
   
     <!-- Tasks Table -->
-    <div>
+    <div class="table-list-container">
       <table>
         <thead>
           <tr>
@@ -134,7 +134,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let task of tasks">
+          <tr *ngFor="let task of filteredTasks" (click)="openDetailView(task)">
             <td>
               <div class="table-checkbox">
                 <input type="checkbox" />
@@ -156,11 +156,25 @@
               </div>
             </td>
             <td>{{ task.dueDate | date: 'MM/dd/yyyy' }}</td>
-            <td>
+            <!-- <td>
               <div
                 [class]="'progress-bar ' + (task.completion === 100 ? 'completed' : '')"
               ></div>
+            </td> -->
+            <td>
+              <div class="progress">
+                <div
+                  class="progress-bar"
+                  [ngClass]="{'completed': task.completion === 100}" 
+                  [style.width.%]="task.completion"
+                  role="progressbar"
+                  [attr.aria-valuenow]="task.completion"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                ></div>
+              </div>
             </td>
+            
             <td>
               <div class="task-status">
                 <span [class]="task.status.toLowerCase().replace(' ', '-')"></span>

@@ -141,8 +141,7 @@
         <div class="d-flex justify-content-between align-items-center">
           <h6>All Tasks</h6>
           <div class="new-button">
-            <div class="add-task"  data-bs-target="#taskModal"
-               data-bs-toggle="modal">
+            <div class="add-task" (click)="openTaskModal('add')">
               <span class="icon">+</span>
               New
             </div>
@@ -153,7 +152,7 @@
         <ul class="list-group">
           <li
             class="list-group-item"
-            [class.selected]="selectedTask?.id === task.id"
+            [class.selected]="taskService.selectedTask?.id === task.id"
             *ngFor="let task of tasks"
             (click)="selectTask(task)"
           >
@@ -171,7 +170,7 @@
                   Due Date: {{ task.dueDate | date: 'MM/dd/yyyy' }}
                 </span>
                 <br />
-                <div [class]="'priority ' + task.priority.toLowerCase()">
+                <div  [class]="'priority'">
                   <img
                     style="border-radius: 5px;"
                     width="10"
@@ -187,23 +186,24 @@
         </ul>
       </div>
   
-      <!-- Task Details -->
-      <div class="task-detail" *ngIf="selectedTask">
+      <div class="task-detail" *ngIf="taskService.selectedTask">
         <div class="card">
           <div class="d-flex justify-content-between align-items-center">
-            <div class="task-priority">
+            <div class="task-priority" [class]="taskService.selectedTask.priority.toLowerCase()" >
               <img
                 width="15"
                 height="15"
-                [src]="'assets/icons/' + selectedTask.priority.toLowerCase() + '-priority.svg'"
+                [src]="'assets/icons/' + taskService.selectedTask.priority.toLowerCase() + '-priority.svg'"
               />
-              <label class="">{{ selectedTask.priority.toUpperCase() }} PRIORITY</label>
+              <label class="">{{ taskService.selectedTask.priority.toUpperCase() }} PRIORITY</label>
             </div>
             <div>
               <button
                 style="background: #f5f5f5;"
                 class="btn btn-light me-2"
-                (click)="logTime()"
+                data-bs-toggle="modal"
+                data-bs-target="#logEntryModal"
+          
               >
                 Log Time
               </button>
@@ -249,20 +249,20 @@
                     <a
                       class="dropdown-item"
                       href="#"
-                      data-bs-target="#taskModal"
-            data-bs-toggle="modal"
+                      (click)="openTaskModal('edit')"
                     >
                       Edit
                     </a>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="#" data-bs-target="#taskModal"
-                    data-bs-toggle="modal">
+                    <a class="dropdown-item" href="#" 
+                     (click)="openTaskModal('clone')"
+                     >
                       Clone
                     </a>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="#" (click)="deleteTask(selectedTask.id!)">
+                    <a class="dropdown-item" href="#" (click)="deleteTask(taskService.selectedTask.id!)">
                       Delete
                     </a>
                   </li>
@@ -279,18 +279,18 @@
           </div>
           <div class="card-body">
             <h6>
-              #TASK-{{ selectedTask.id }} {{ selectedTask.title }}
-              <span class="">{{ selectedTask.status }}</span>
+              #TASK-{{ taskService.selectedTask.id }}
+              <span class="">{{ taskService.selectedTask.status }}</span>
             </h6>
             <hr />
             <div class="column">
               <div class="task-detail-section">
                 <p>Due Date:</p>
-                <p>{{ selectedTask.dueDate | date: 'MM/dd/yyyy' }}</p>
+                <p>{{ taskService.selectedTask.dueDate | date: 'MM/dd/yyyy' }}</p>
               </div>
               <div class="task-detail-section">
                 <p>Assigned To:</p>
-                <p>{{ selectedTask.assignedTo || 'Unassigned' }}</p>
+                <p>{{ taskService.selectedTask.assignedTo || 'Unassigned' }}</p>
               </div>
               <hr />
             </div>
@@ -299,13 +299,19 @@
               <thead class="table-light">
                 <tr>
                   <th scope="col">DATE</th>
-                  <th scope="col">USER</th>
-                  <th scope="col">TIME</th>
-                  <th scope="col">STATUS</th>
+                  <th scope="col">Task</th>
+                  <th scope="col">TIME SPENT</th>
+                  <th scope="col">NOTES</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
+                <tr *ngFor="let log of taskService.logs">
+                  <td>{{ log.date | date }}</td>
+                  <td>{{ log.task }}</td>
+                  <td>{{ log.timeSpent }}</td>
+                  <td>{{ log.notes }}</td>
+                </tr>
+                <tr *ngIf="taskService.logs.length == 0">
                   <td colspan="4" class="text-muted">No logged hours yet</td>
                 </tr>
               </tbody>

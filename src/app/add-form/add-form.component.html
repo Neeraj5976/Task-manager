@@ -8,7 +8,8 @@
   <div style="margin-top: 0px;" class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="taskModalLabel">New Task</h5>
+        <h5 class="modal-title" id="taskModalLabel">    {{ mode === 'add' ? 'New Task' : mode === 'edit' ? 'Edit Task' : 'Clone Task' }}
+        </h5>
         <button
           type="button"
           class="btn-close"
@@ -25,7 +26,7 @@
               type="text"
               id="taskNumber"
               class="form-control"
-              formControlName="taskNumber"
+              formControlName="id"
               readonly
             />
           </div>
@@ -61,10 +62,9 @@
           <!-- Assign To -->
           <div class="col-md-6">
             <label for="assignTo" class="form-label">Assign To</label>
-            <select id="assignTo" class="form-select" formControlName="assignTo">
+            <select id="assignTo" class="form-select" formControlName="assignedTo">
               <option value="Unassigned">Unassigned</option>
-              <option value="User1">User1</option>
-              <option value="User2">User2</option>
+              <option *ngFor="let user of tasks_assinies" [value]="user">{{user}}</option>
             </select>
           </div>
 
@@ -72,9 +72,10 @@
           <div class="col-md-6">
             <label for="priority" class="form-label">Priority</label>
             <select id="priority" class="form-select" formControlName="priority">
-              <option value="Very Low">Very Low</option>
-              <option value="Low">Low</option>
-              <option value="Medium">Medium</option>
+              <!-- <option value="Very Low">Very Low</option> -->
+              
+              <option  value="Low">Low</option>
+              <!-- <option value="Medium">Medium</option> -->
               <option value="High">High</option>
             </select>
           </div>

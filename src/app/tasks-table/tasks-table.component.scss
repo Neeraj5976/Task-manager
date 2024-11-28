@@ -1,6 +1,14 @@
 .tasks-table {
     margin-top: 20px;
     border-top: 1px solid #efefef;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    flex: 1;
+    .table-list-container{
+      flex: 1;
+      overflow: auto;
+    }
   }
   
   table {
@@ -19,6 +27,13 @@
     padding: 10px;
     border-bottom: 1px solid #ddd;
   }
+
+  tbody > tr:hover{
+    background: #f9f9f9;
+    cursor: pointer;
+  }
+
+  
   
   .priority.high {
     color: red;
@@ -105,4 +120,23 @@
     border: none;
     outline: none;
   }
+}
+
+.progress {
+  background-color: #f1f1f1;
+  border-radius: 5px;
+  overflow: hidden;
+  height: 10px;
+  width: 100%;
+  position: relative;
+}
+
+.progress-bar {
+  height: 100%;
+  transition: width 0.3s ease-in-out;
+  background-color: #007bff; /* Default color */
+}
+
+.progress-bar.completed {
+  background-color: #28a745; /* Green color for completed tasks */
 }
